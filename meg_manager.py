@@ -131,12 +131,6 @@ class MEGManager:
         self.missioni_attive = []
         self.log_esplorazioni = []
         self.mappa_generata = set()
-
-    def menu_addestramento(self):
-    print("\nADDESTRAMENTO AGENTI:")
-    print("\nAgenti disponibili:")
-    for i, agente in enumerate(self.agenti, 1):
-        print(f"{i}. {agente.specializzazione} - HP: {agente.hp} - EXP: {agente.esperienza}")
     
     scelta = input("\nScegli un agente da addestrare (0 per tornare): ")
     if scelta.isdigit() and 0 < int(scelta) <= len(self.agenti):
@@ -300,6 +294,24 @@ class MEGManager:
             self.gestisci_risorse()
         elif scelta == "4":
             self.cura_agenti()
+
+    def menu_addestramento(self):
+        print("\nADDESTRAMENTO AGENTI:")
+        print("\nAgenti disponibili:")
+        for i, agente in enumerate(self.agenti, 1):
+            print(f"{i}. {agente.specializzazione} - HP: {agente.hp} - EXP: {agente.esperienza}")
+        
+        scelta = input("\nScegli un agente da addestrare (0 per tornare): ")
+        if scelta.isdigit() and 0 < int(scelta) <= len(self.agenti):
+            agente = self.agenti[int(scelta)-1]
+            costo = 10
+            if self.supplies >= costo:
+                self.supplies -= costo
+                exp_guadagnata = random.randint(5, 15)
+                agente.esperienza += exp_guadagnata
+                print(f"\nAddestramento completato! +{exp_guadagnata} EXP")
+            else:
+                print("\nRisorse insufficienti per l'addestramento!")
 
     def trova_risorse(self, livello):
         quantita = random.randint(10, 50) * livello['prob_risorse']
